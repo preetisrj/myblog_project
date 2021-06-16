@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{%load custom_filters %}
+{% block title  %}
+my blogs
+{% endblock  %}
+
+{% block body_block %}
+{% for blog in user.post_author.all%}
+<h2>{{blog.blog_title}}</h2>
+
+<h5><i>{{blog.publish_date}}</i></h5>
+<br>
+<div class="row">
+<div class="col-sm-4">
+    <img src="/media/{{blog.blog_image}}" width="100%">
+</div>
+<br>
+<div class="col-sm-8">
+    <p>{{ blog.blog_content|range_filter|linebreaks }}<a href="{%url 'App_blog:blog_details' blog.slug %}">read more</a>
+    </p>
+    
+    <h6>{{blog.liked_blog.count}} Likes | {{blog.blog_comment.count}} Comments </h6>
+</div>
+
+</div>
+<hr>
+<a href="{%url 'App_blog:edit_blog' pk=blog.pk %}" class="btn btn-info btn-sm">edit</a>
+
+{%endfor%}
+{% endblock%}
